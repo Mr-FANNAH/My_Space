@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Space — Personal Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- 2026 fonts: Bricolage Grotesque (bold display) + DM Mono (code/labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       AUTH SCREEN
+  ══════════════════════════════════════════ -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-bg">
+      <div class="grid-overlay"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+      <div class="glow glow-3"></div>
+    </div>
+    <div class="auth-container">
+      <div class="auth-logo">
+        <span class="logo-mark">◎</span>
+        <span class="logo-text">My Space</span>
+      </div>
+      <p class="auth-tagline">// your personal command center</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign In</button>
+        <button class="auth-tab" data-tab="register">Register</button>
+      </div>
+
+      <form id="login-form" class="auth-form active" novalidate>
+        <div class="field-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="field-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <div class="form-error" id="login-error"></div>
+        <button type="submit" class="btn-primary">Sign In →</button>
+      </form>
+
+      <form id="register-form" class="auth-form" novalidate>
+        <div class="field-group">
+          <label for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" placeholder="John Doe" autocomplete="name" />
+        </div>
+        <div class="field-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="field-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="min. 6 characters" autocomplete="new-password" />
+        </div>
+        <div class="form-error" id="register-error"></div>
+        <button type="submit" class="btn-primary">Create Account →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       DASHBOARD SCREEN
+  ══════════════════════════════════════════ -->
+  <div id="dashboard-screen" class="screen">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-mark">◎</span>
+        <span class="logo-text">My Space</span>
+        <button class="sidebar-toggle" id="sidebar-close" title="Close">✕</button>
+      </div>
+
+      <!-- ── Weather + Clock Widget ── -->
+      <div class="weather-widget">
+        <div class="weather-main">
+          <span class="weather-icon" id="weather-icon">⛅</span>
+          <div class="weather-temps">
+            <div class="weather-temp" id="weather-temp">--°C</div>
+            <div class="weather-desc" id="weather-desc">Loading…</div>
+          </div>
+        </div>
+        <div class="weather-row2">
+          <span class="weather-city">📍 Fes, Morocco</span>
+          <span class="weather-clock" id="clock">--:--</span>
+        </div>
+        <div class="weather-date" id="weather-date">---</div>
+      </div>
+
+      <!-- ── User Card ── -->
+      <div class="user-card">
+        <div class="user-avatar" id="sidebar-avatar">J</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-name">John Doe</div>
+          <div class="user-email" id="sidebar-email">john@email.com</div>
+        </div>
+      </div>
+
+      <!-- ── Nav ── -->
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">◉</span> Dashboard
+        </a>
+        <a href="#" class="nav-item" data-view="notebook">
+          <span class="nav-icon">◉</span> Notebook
+        </a>
+        <a href="#" class="nav-item" data-view="profile">
+          <span class="nav-icon">◉</span> Profile
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" id="logout-btn">⏻ Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <main class="main-content">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" id="sidebar-open">☰</button>
+          <div class="greeting" id="greeting">Good morning</div>
+        </div>
+        <div class="topbar-right">
+          <div class="search-wrapper">
+            <span class="search-icon">⌕</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Search links &amp; categories…" />
+            <button class="search-clear" id="search-clear">✕</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD VIEW -->
+      <section id="view-dashboard" class="view active">
+        <div class="view-header">
+          <h1 class="view-title">My Dashboard</h1>
+          <button class="btn-add-category" id="add-category-btn">+ New Category</button>
+        </div>
+
+        <div class="search-banner" id="search-banner" style="display:none">
+          Results for: <strong id="search-term-display"></strong>
+          <button id="clear-search-btn">Clear</button>
+        </div>
+
+        <div class="categories-grid" id="categories-grid"></div>
+
+        <div class="empty-state" id="empty-state" style="display:none">
+          <div class="empty-icon">◈</div>
+          <h3>No categories yet</h3>
+          <p>Create your first category to start organizing links</p>
+          <button class="btn-primary" id="empty-add-btn">+ New Category</button>
+        </div>
+      </section>
+
+      <!-- NOTEBOOK VIEW -->
+      <section id="view-notebook" class="view">
+        <div class="view-header">
+          <h1 class="view-title">Notebook</h1>
+          <button class="btn-add-category" id="add-note-btn">+ New Note</button>
+        </div>
+        <div class="notebook-grid" id="notebook-grid"></div>
+        <div class="empty-state" id="notebook-empty" style="display:none">
+          <div class="empty-icon">📓</div>
+          <h3>No notes yet</h3>
+          <p>Capture ideas, tasks, and thoughts</p>
+          <button class="btn-primary" id="notebook-empty-add-btn">+ New Note</button>
+        </div>
+      </section>
+
+      <!-- PROFILE VIEW -->
+      <section id="view-profile" class="view">
+        <div class="view-header">
+          <h1 class="view-title">Profile</h1>
+        </div>
+        <div class="profile-card">
+          <div class="profile-avatar" id="profile-avatar">J</div>
+          <div class="profile-details">
+            <div class="profile-row">
+              <label>Name</label>
+              <input type="text" id="profile-name-input" class="profile-input" />
+            </div>
+            <div class="profile-row">
+              <label>Email</label>
+              <input type="email" id="profile-email-input" class="profile-input" />
+            </div>
+            <div class="profile-row">
+              <label>New Password</label>
+              <input type="password" id="profile-password-input" class="profile-input" placeholder="Leave blank to keep current" />
+            </div>
+            <div class="form-error" id="profile-error"></div>
+            <div class="profile-success" id="profile-success"></div>
+            <button class="btn-primary" id="save-profile-btn">Save Changes</button>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-categories">0</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-links">0</div>
+            <div class="stat-label">Links</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-notes">0</div>
+            <div class="stat-label">Notes</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MODALS
+  ══════════════════════════════════════════ -->
+
+  <!-- Category Modal (with Color + Emoji picker) -->
+  <div class="modal-backdrop" id="category-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="category-modal-title">New Category</h2>
+        <button class="modal-close" data-modal="category-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="category-name-input">Category Name</label>
+          <input type="text" id="category-name-input" placeholder="e.g. Social, Work, Dev…" maxlength="40" />
+        </div>
+
+        <!-- COLOR PICKER -->
+        <div class="field-group">
+          <label>Accent Color</label>
+          <div class="color-picker" id="cat-color-picker">
+            <button class="color-swatch active" data-color="#4af0c4" style="--sw:#4af0c4"></button>
+            <button class="color-swatch" data-color="#6e7ef0" style="--sw:#6e7ef0"></button>
+            <button class="color-swatch" data-color="#f06e9e" style="--sw:#f06e9e"></button>
+            <button class="color-swatch" data-color="#f0b84a" style="--sw:#f0b84a"></button>
+            <button class="color-swatch" data-color="#4af07a" style="--sw:#4af07a"></button>
+            <button class="color-swatch" data-color="#f04a4a" style="--sw:#f04a4a"></button>
+            <button class="color-swatch" data-color="#c47af0" style="--sw:#c47af0"></button>
+            <button class="color-swatch" data-color="#4ac8f0" style="--sw:#4ac8f0"></button>
+            <button class="color-swatch" data-color="#f08a4a" style="--sw:#f08a4a"></button>
+            <button class="color-swatch" data-color="#e8ecf4" style="--sw:#e8ecf4"></button>
+            <label class="color-custom" title="Pick any color">
+              <span class="custom-icon">✦</span>
+              <input type="color" id="cat-custom-color" value="#4af0c4" />
+            </label>
+          </div>
+          <div class="color-preview-row">
+            <span class="color-preview-label">Preview:</span>
+            <div class="color-preview-bar" id="cat-color-preview"></div>
+          </div>
+        </div>
+
+        <!-- EMOJI PICKER -->
+        <div class="field-group">
+          <label>Icon</label>
+          <div class="emoji-picker" id="cat-emoji-picker">
+            <button class="emoji-opt active" data-emoji="🌐">🌐</button>
+            <button class="emoji-opt" data-emoji="💼">💼</button>
+            <button class="emoji-opt" data-emoji="📰">📰</button>
+            <button class="emoji-opt" data-emoji="⚙️">⚙️</button>
+            <button class="emoji-opt" data-emoji="🎵">🎵</button>
+            <button class="emoji-opt" data-emoji="🎮">🎮</button>
+            <button class="emoji-opt" data-emoji="📚">📚</button>
+            <button class="emoji-opt" data-emoji="💰">💰</button>
+            <button class="emoji-opt" data-emoji="🏠">🏠</button>
+            <button class="emoji-opt" data-emoji="✈️">✈️</button>
+            <button class="emoji-opt" data-emoji="🔗">🔗</button>
+            <button class="emoji-opt" data-emoji="⭐">⭐</button>
+            <button class="emoji-opt" data-emoji="🎨">🎨</button>
+            <button class="emoji-opt" data-emoji="🤖">🤖</button>
+            <button class="emoji-opt" data-emoji="🔬">🔬</button>
+            <button class="emoji-opt" data-emoji="🧠">🧠</button>
+          </div>
+        </div>
+        <div class="form-error" id="category-modal-error"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" data-modal="category-modal">Cancel</button>
+        <button class="btn-primary" id="save-category-btn">Save Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link Modal -->
+  <div class="modal-backdrop" id="link-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="link-modal-title">New Link</h2>
+        <button class="modal-close" data-modal="link-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="link-title-input">Title</label>
+          <input type="text" id="link-title-input" placeholder="e.g. YouTube, GitHub…" maxlength="40" />
+        </div>
+        <div class="field-group">
+          <label for="link-url-input">URL</label>
+          <input type="url" id="link-url-input" placeholder="https://example.com" />
+        </div>
+        <div class="field-group">
+          <label>Icon</label>
+          <div class="emoji-picker" id="link-emoji-picker">
+            <button class="emoji-opt active" data-emoji="🔗">🔗</button>
+            <button class="emoji-opt" data-emoji="▶️">▶️</button>
+            <button class="emoji-opt" data-emoji="📧">📧</button>
+            <button class="emoji-opt" data-emoji="💻">💻</button>
+            <button class="emoji-opt" data-emoji="📖">📖</button>
+            <button class="emoji-opt" data-emoji="🛒">🛒</button>
+            <button class="emoji-opt" data-emoji="🎵">🎵</button>
+            <button class="emoji-opt" data-emoji="📰">📰</button>
+            <button class="emoji-opt" data-emoji="🤖">🤖</button>
+            <button class="emoji-opt" data-emoji="☁️">☁️</button>
+            <button class="emoji-opt" data-emoji="🔒">🔒</button>
+            <button class="emoji-opt" data-emoji="⭐">⭐</button>
+          </div>
+        </div>
+        <div class="form-error" id="link-modal-error"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" data-modal="link-modal">Cancel</button>
+        <button class="btn-primary" id="save-link-btn">Save Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note Modal -->
+  <div class="modal-backdrop" id="note-modal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2 id="note-modal-title">New Note</h2>
+        <button class="modal-close" data-modal="note-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="note-title-input">Title</label>
+          <input type="text" id="note-title-input" placeholder="Note title…" maxlength="80" />
+        </div>
+        <div class="field-group">
+          <label>Note Background Color</label>
+          <div class="color-picker" id="note-color-picker">
+            <button class="color-swatch active" data-color="#171d2d" style="--sw:#171d2d"></button>
+            <button class="color-swatch" data-color="#1a2518" style="--sw:#1a2518"></button>
+            <button class="color-swatch" data-color="#1e1a28" style="--sw:#1e1a28"></button>
+            <button class="color-swatch" data-color="#281a1a" style="--sw:#281a1a"></button>
+            <button class="color-swatch" data-color="#28241a" style="--sw:#28241a"></button>
+            <button class="color-swatch" data-color="#1a2128" style="--sw:#1a2128"></button>
+            <button class="color-swatch" data-color="#1f1f1f" style="--sw:#1f1f1f"></button>
+            <label class="color-custom" title="Custom note color">
+              <span class="custom-icon">✦</span>
+              <input type="color" id="note-custom-color" value="#171d2d" />
+            </label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="note-content-input">Content</label>
+          <textarea id="note-content-input" class="note-textarea" placeholder="Write your note here…" rows="8"></textarea>
+        </div>
+        <div class="form-error" id="note-modal-error"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" data-modal="note-modal">Cancel</button>
+        <button class="btn-primary" id="save-note-btn">Save Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-backdrop" id="confirm-modal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="modal-close" data-modal="confirm-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message">Are you sure?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" data-modal="confirm-modal">Cancel</button>
+        <button class="btn-danger" id="confirm-ok-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
