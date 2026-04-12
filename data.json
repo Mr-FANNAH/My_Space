@@ -1,0 +1,81 @@
+{
+  "_info": {
+    "app": "My Space Dashboard",
+    "version": "3.0",
+    "description": "This file is your personal data store. Keep it next to index.html, style.css and app.js. Export it from the app to update it, import it to restore data."
+  },
+  "users": [
+    {
+      "id": "demo001",
+      "name": "Alex Demo",
+      "email": "demo@myspace.io",
+      "password": "demo123",
+      "notes": [
+        {
+          "id": "note001",
+          "title": "💡 Project Ideas",
+          "content": "<h2>Ideas to explore</h2><ul><li>Build a habit tracker</li><li>Learn <strong>Rust</strong> basics</li><li>Read \"The Mom Test\"</li></ul><blockquote>Start before you are ready.</blockquote>",
+          "color": "#1a2518",
+          "createdAt": "9 Apr 2026",
+          "updatedAt": "9 Apr 2026"
+        },
+        {
+          "id": "note002",
+          "title": "📋 Dev Notes",
+          "content": "<h1>Quick Notes</h1><p>Remember to check the <strong>API rate limits</strong> before deploying.</p><pre>npm run build\nnpm run deploy</pre><p>Also update the <em>README</em> with new env variables.</p>",
+          "color": "#1e1a28",
+          "createdAt": "10 Apr 2026",
+          "updatedAt": "10 Apr 2026"
+        }
+      ],
+      "categories": [
+        {
+          "id": "cat001",
+          "name": "Social",
+          "icon": "🌐",
+          "color": "#4af0c4",
+          "links": [
+            { "id": "lnk001", "title": "YouTube",   "url": "https://youtube.com",   "icon": "▶️" },
+            { "id": "lnk002", "title": "Twitter/X", "url": "https://x.com",         "icon": "🐦" },
+            { "id": "lnk003", "title": "Reddit",    "url": "https://reddit.com",    "icon": "🔴" },
+            { "id": "lnk004", "title": "LinkedIn",  "url": "https://linkedin.com",  "icon": "💼" },
+            { "id": "lnk005", "title": "Discord",   "url": "https://discord.com",   "icon": "💬" }
+          ]
+        },
+        {
+          "id": "cat002",
+          "name": "Work",
+          "icon": "💼",
+          "color": "#6e7ef0",
+          "links": [
+            { "id": "lnk006", "title": "Gmail",  "url": "https://mail.google.com", "icon": "📧" },
+            { "id": "lnk007", "title": "Notion", "url": "https://notion.so",       "icon": "📝" },
+            { "id": "lnk008", "title": "Slack",  "url": "https://slack.com",       "icon": "💬" }
+          ]
+        },
+        {
+          "id": "cat003",
+          "name": "Dev Tools",
+          "icon": "⚙️",
+          "color": "#f0b84a",
+          "links": [
+            { "id": "lnk009", "title": "GitHub",         "url": "https://github.com",              "icon": "💻" },
+            { "id": "lnk010", "title": "Stack Overflow", "url": "https://stackoverflow.com",       "icon": "🔍" },
+            { "id": "lnk011", "title": "MDN Docs",       "url": "https://developer.mozilla.org",   "icon": "📖" }
+          ]
+        },
+        {
+          "id": "cat004",
+          "name": "AI Tools",
+          "icon": "🤖",
+          "color": "#c47af0",
+          "links": [
+            { "id": "lnk012", "title": "Claude",     "url": "https://claude.ai",        "icon": "🧠" },
+            { "id": "lnk013", "title": "ChatGPT",    "url": "https://chat.openai.com",  "icon": "💬" },
+            { "id": "lnk014", "title": "Perplexity", "url": "https://perplexity.ai",    "icon": "🔬" }
+          ]
+        }
+      ]
+    }
+  ]
+}
