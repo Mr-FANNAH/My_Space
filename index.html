@@ -5,17 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Space — Personal Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- 2026 fonts: Bricolage Grotesque (bold display) + DM Mono (code/labels) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       AUTH SCREEN
-  ══════════════════════════════════════════ -->
-  <div id="auth-screen" class="screen active">
+  <!-- ══════════════════════ LOADING SCREEN ══════════════════════ -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-inner">
+      <span class="logo-mark pulse">◎</span>
+      <div class="loading-text">My Space</div>
+      <div class="loading-sub">Loading your data…</div>
+      <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ AUTH SCREEN ══════════════════════ -->
+  <div id="auth-screen" class="screen">
     <div class="auth-bg">
       <div class="grid-overlay"></div>
       <div class="glow glow-1"></div>
@@ -28,6 +35,12 @@
         <span class="logo-text">My Space</span>
       </div>
       <p class="auth-tagline">// your personal command center</p>
+
+      <!-- Data source indicator -->
+      <div class="data-source-badge" id="data-source-badge">
+        <span class="ds-icon">📄</span>
+        <span id="data-source-text">data.json loaded</span>
+      </div>
 
       <div class="auth-tabs">
         <button class="auth-tab active" data-tab="login">Sign In</button>
@@ -66,20 +79,18 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       DASHBOARD SCREEN
-  ══════════════════════════════════════════ -->
+  <!-- ══════════════════════ DASHBOARD SCREEN ══════════════════════ -->
   <div id="dashboard-screen" class="screen">
 
-    <!-- ── Sidebar ── -->
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <span class="logo-mark">◎</span>
         <span class="logo-text">My Space</span>
-        <button class="sidebar-toggle" id="sidebar-close" title="Close">✕</button>
+        <button class="sidebar-toggle" id="sidebar-close">✕</button>
       </div>
 
-      <!-- ── Weather + Clock Widget ── -->
+      <!-- Weather Widget -->
       <div class="weather-widget">
         <div class="weather-main">
           <span class="weather-icon" id="weather-icon">⛅</span>
@@ -95,7 +106,7 @@
         <div class="weather-date" id="weather-date">---</div>
       </div>
 
-      <!-- ── User Card ── -->
+      <!-- User Card -->
       <div class="user-card">
         <div class="user-avatar" id="sidebar-avatar">J</div>
         <div class="user-info">
@@ -104,34 +115,36 @@
         </div>
       </div>
 
-      <!-- ── Nav ── -->
+      <!-- Nav -->
       <nav class="sidebar-nav">
-        <a href="#" class="nav-item active" data-view="dashboard">
-          <span class="nav-icon">◉</span> Dashboard
-        </a>
-        <a href="#" class="nav-item" data-view="notebook">
-          <span class="nav-icon">◉</span> Notebook
-        </a>
-        <a href="#" class="nav-item" data-view="profile">
-          <span class="nav-icon">◉</span> Profile
-        </a>
+        <a href="#" class="nav-item active" data-view="dashboard"><span class="nav-icon">◉</span> Dashboard</a>
+        <a href="#" class="nav-item" data-view="notebook"><span class="nav-icon">◉</span> Notebook</a>
+        <a href="#" class="nav-item" data-view="data"><span class="nav-icon">◉</span> Data Manager</a>
+        <a href="#" class="nav-item" data-view="profile"><span class="nav-icon">◉</span> Profile</a>
       </nav>
 
       <div class="sidebar-footer">
+        <!-- Quick export button -->
+        <button class="btn-export-quick" id="quick-export-btn" title="Export data.json">
+          ⬇ Export data.json
+        </button>
         <button class="btn-logout" id="logout-btn">⏻ Sign Out</button>
       </div>
     </aside>
 
-    <!-- ── Main Content ── -->
+    <!-- Main Content -->
     <main class="main-content">
-
-      <!-- Topbar -->
       <header class="topbar">
         <div class="topbar-left">
           <button class="hamburger" id="sidebar-open">☰</button>
           <div class="greeting" id="greeting">Good morning</div>
         </div>
         <div class="topbar-right">
+          <!-- Data status pill in topbar -->
+          <div class="data-pill" id="data-pill">
+            <span class="data-pill-dot"></span>
+            <span id="data-pill-text">Saved</span>
+          </div>
           <div class="search-wrapper">
             <span class="search-icon">⌕</span>
             <input type="text" id="search-input" class="search-input" placeholder="Search links &amp; categories…" />
@@ -140,20 +153,17 @@
         </div>
       </header>
 
-      <!-- DASHBOARD VIEW -->
+      <!-- ── DASHBOARD VIEW ── -->
       <section id="view-dashboard" class="view active">
         <div class="view-header">
           <h1 class="view-title">My Dashboard</h1>
           <button class="btn-add-category" id="add-category-btn">+ New Category</button>
         </div>
-
         <div class="search-banner" id="search-banner" style="display:none">
           Results for: <strong id="search-term-display"></strong>
           <button id="clear-search-btn">Clear</button>
         </div>
-
         <div class="categories-grid" id="categories-grid"></div>
-
         <div class="empty-state" id="empty-state" style="display:none">
           <div class="empty-icon">◈</div>
           <h3>No categories yet</h3>
@@ -162,7 +172,7 @@
         </div>
       </section>
 
-      <!-- NOTEBOOK VIEW -->
+      <!-- ── NOTEBOOK VIEW ── -->
       <section id="view-notebook" class="view">
         <div class="view-header">
           <h1 class="view-title">Notebook</h1>
@@ -177,11 +187,102 @@
         </div>
       </section>
 
-      <!-- PROFILE VIEW -->
-      <section id="view-profile" class="view">
+      <!-- ── DATA MANAGER VIEW ── -->
+      <section id="view-data" class="view">
         <div class="view-header">
-          <h1 class="view-title">Profile</h1>
+          <h1 class="view-title">Data Manager</h1>
         </div>
+
+        <!-- How it works -->
+        <div class="data-explainer">
+          <div class="explainer-icon">📄</div>
+          <div class="explainer-text">
+            <h3>How your data works</h3>
+            <p>
+              Your data is stored in <code>data.json</code> — a file that lives right next to
+              <code>index.html</code>, <code>style.css</code> and <code>app.js</code>.
+              The app reads it on startup and auto-saves changes to your browser cache.
+              Use <strong>Export</strong> to download the latest version of <code>data.json</code>
+              and replace the old file. Use <strong>Import</strong> to load any saved backup.
+            </p>
+          </div>
+        </div>
+
+        <!-- Data cards row -->
+        <div class="data-cards-row">
+
+          <!-- Export card -->
+          <div class="data-action-card export-card">
+            <div class="dac-icon">⬇</div>
+            <div class="dac-content">
+              <h3>Export data.json</h3>
+              <p>Download all your users, categories, links and notes as a <code>data.json</code> file. Replace the old file in your project folder to keep it up to date.</p>
+              <div class="dac-meta" id="export-meta">— users · — categories · — links · — notes</div>
+            </div>
+            <button class="btn-primary dac-btn" id="export-btn">⬇ Download data.json</button>
+          </div>
+
+          <!-- Import card -->
+          <div class="data-action-card import-card">
+            <div class="dac-icon">⬆</div>
+            <div class="dac-content">
+              <h3>Import data.json</h3>
+              <p>Load a previously exported <code>data.json</code> file. This will <strong>replace</strong> all current data. Make sure to export first if you want to keep it.</p>
+              <div class="import-warning">⚠ This overwrites all current data</div>
+            </div>
+            <label class="btn-secondary dac-btn import-label">
+              ⬆ Choose data.json
+              <input type="file" id="import-file-input" accept=".json" />
+            </label>
+          </div>
+
+          <!-- Reset card -->
+          <div class="data-action-card reset-card">
+            <div class="dac-icon">🔄</div>
+            <div class="dac-content">
+              <h3>Reload from data.json</h3>
+              <p>Discard unsaved browser cache and reload data from the <code>data.json</code> file in your project folder. Useful if you edited the file manually.</p>
+              <div class="import-warning">⚠ Unsaved changes will be lost</div>
+            </div>
+            <button class="btn-secondary dac-btn" id="reload-json-btn">↺ Reload data.json</button>
+          </div>
+
+        </div>
+
+        <!-- Live JSON preview -->
+        <div class="data-preview-section">
+          <div class="data-preview-header">
+            <h3>Live data preview <span class="preview-badge">data.json</span></h3>
+            <button class="btn-copy-json" id="copy-json-btn">Copy JSON</button>
+          </div>
+          <pre class="json-preview" id="json-preview">Loading…</pre>
+        </div>
+
+        <!-- All users table -->
+        <div class="users-table-section">
+          <h3>Registered Users</h3>
+          <div class="users-table-wrap">
+            <table class="users-table" id="users-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Categories</th>
+                  <th>Links</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PROFILE VIEW ── -->
+      <section id="view-profile" class="view">
+        <div class="view-header"><h1 class="view-title">Profile</h1></div>
         <div class="profile-card">
           <div class="profile-avatar" id="profile-avatar">J</div>
           <div class="profile-details">
@@ -203,29 +304,18 @@
           </div>
         </div>
         <div class="profile-stats">
-          <div class="stat-card">
-            <div class="stat-number" id="stat-categories">0</div>
-            <div class="stat-label">Categories</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="stat-links">0</div>
-            <div class="stat-label">Links</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="stat-notes">0</div>
-            <div class="stat-label">Notes</div>
-          </div>
+          <div class="stat-card"><div class="stat-number" id="stat-categories">0</div><div class="stat-label">Categories</div></div>
+          <div class="stat-card"><div class="stat-number" id="stat-links">0</div><div class="stat-label">Links</div></div>
+          <div class="stat-card"><div class="stat-number" id="stat-notes">0</div><div class="stat-label">Notes</div></div>
         </div>
       </section>
 
     </main>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       MODALS
-  ══════════════════════════════════════════ -->
+  <!-- ══════════════════════ MODALS ══════════════════════ -->
 
-  <!-- Category Modal (with Color + Emoji picker) -->
+  <!-- Category Modal -->
   <div class="modal-backdrop" id="category-modal">
     <div class="modal">
       <div class="modal-header">
@@ -237,8 +327,6 @@
           <label for="category-name-input">Category Name</label>
           <input type="text" id="category-name-input" placeholder="e.g. Social, Work, Dev…" maxlength="40" />
         </div>
-
-        <!-- COLOR PICKER -->
         <div class="field-group">
           <label>Accent Color</label>
           <div class="color-picker" id="cat-color-picker">
@@ -262,8 +350,6 @@
             <div class="color-preview-bar" id="cat-color-preview"></div>
           </div>
         </div>
-
-        <!-- EMOJI PICKER -->
         <div class="field-group">
           <label>Icon</label>
           <div class="emoji-picker" id="cat-emoji-picker">
@@ -336,21 +422,22 @@
     </div>
   </div>
 
-  <!-- Note Modal -->
+  <!-- Note Modal (Rich Editor) -->
   <div class="modal-backdrop" id="note-modal">
-    <div class="modal modal-lg">
+    <div class="modal modal-editor">
       <div class="modal-header">
         <h2 id="note-modal-title">New Note</h2>
-        <button class="modal-close" data-modal="note-modal">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="field-group">
-          <label for="note-title-input">Title</label>
-          <input type="text" id="note-title-input" placeholder="Note title…" maxlength="80" />
+        <div class="editor-header-right">
+          <button class="btn-secondary" data-modal="note-modal">Cancel</button>
+          <button class="btn-primary" id="save-note-btn">Save Note</button>
+          <button class="modal-close" data-modal="note-modal">✕</button>
         </div>
-        <div class="field-group">
-          <label>Note Background Color</label>
-          <div class="color-picker" id="note-color-picker">
+      </div>
+      <div class="editor-meta-bar">
+        <input type="text" id="note-title-input" class="editor-title-input" placeholder="Note title…" maxlength="120" />
+        <div class="editor-color-row">
+          <span class="editor-label">Card color:</span>
+          <div class="color-picker inline-picker" id="note-color-picker">
             <button class="color-swatch active" data-color="#171d2d" style="--sw:#171d2d"></button>
             <button class="color-swatch" data-color="#1a2518" style="--sw:#1a2518"></button>
             <button class="color-swatch" data-color="#1e1a28" style="--sw:#1e1a28"></button>
@@ -358,22 +445,111 @@
             <button class="color-swatch" data-color="#28241a" style="--sw:#28241a"></button>
             <button class="color-swatch" data-color="#1a2128" style="--sw:#1a2128"></button>
             <button class="color-swatch" data-color="#1f1f1f" style="--sw:#1f1f1f"></button>
-            <label class="color-custom" title="Custom note color">
+            <label class="color-custom">
               <span class="custom-icon">✦</span>
               <input type="color" id="note-custom-color" value="#171d2d" />
             </label>
           </div>
         </div>
-        <div class="field-group">
-          <label for="note-content-input">Content</label>
-          <textarea id="note-content-input" class="note-textarea" placeholder="Write your note here…" rows="8"></textarea>
+      </div>
+      <div class="editor-toolbar" id="editor-toolbar">
+        <div class="toolbar-group">
+          <select class="toolbar-select" id="block-format">
+            <option value="p">Paragraph</option>
+            <option value="h1">Heading 1</option>
+            <option value="h2">Heading 2</option>
+            <option value="h3">Heading 3</option>
+            <option value="h4">Heading 4</option>
+            <option value="blockquote">Quote</option>
+            <option value="pre">Code Block</option>
+          </select>
         </div>
-        <div class="form-error" id="note-modal-error"></div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <select class="toolbar-select" id="font-family">
+            <option value="Bricolage Grotesque">Bricolage</option>
+            <option value="DM Mono">Mono</option>
+            <option value="Georgia, serif">Georgia</option>
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="'Times New Roman', serif">Times</option>
+          </select>
+        </div>
+        <div class="toolbar-group">
+          <select class="toolbar-select narrow" id="font-size">
+            <option value="12px">12</option>
+            <option value="14px">14</option>
+            <option value="16px" selected>16</option>
+            <option value="18px">18</option>
+            <option value="20px">20</option>
+            <option value="24px">24</option>
+            <option value="28px">28</option>
+            <option value="32px">32</option>
+            <option value="40px">40</option>
+            <option value="48px">48</option>
+          </select>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tb" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button class="tb" data-cmd="italic" title="Italic"><i>I</i></button>
+          <button class="tb" data-cmd="underline" title="Underline"><u>U</u></button>
+          <button class="tb" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+          <button class="tb" data-cmd="superscript" title="Superscript">X²</button>
+          <button class="tb" data-cmd="subscript" title="Subscript">X₂</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <label class="tb color-tb" title="Text color">
+            <span class="color-tb-icon" id="text-color-icon" style="border-bottom:3px solid #4af0c4">A</span>
+            <input type="color" id="text-color-picker" value="#4af0c4" />
+          </label>
+          <label class="tb color-tb" title="Highlight">
+            <span class="color-tb-icon bg-icon" id="bg-color-icon" style="background:#f0b84a22">H</span>
+            <input type="color" id="bg-color-picker" value="#f0b84a" />
+          </label>
+          <button class="tb" data-cmd="removeFormat" title="Clear formatting">✕<sub>fmt</sub></button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tb" data-cmd="justifyLeft" title="Left">≡←</button>
+          <button class="tb" data-cmd="justifyCenter" title="Center">≡</button>
+          <button class="tb" data-cmd="justifyRight" title="Right">≡→</button>
+          <button class="tb" data-cmd="justifyFull" title="Justify">≣</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tb" data-cmd="insertUnorderedList" title="Bullet list">• —</button>
+          <button class="tb" data-cmd="insertOrderedList" title="Numbered list">1. —</button>
+          <button class="tb" data-cmd="outdent" title="Outdent">⇤</button>
+          <button class="tb" data-cmd="indent" title="Indent">⇥</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tb" id="insert-link-btn" title="Insert link">🔗</button>
+          <button class="tb" id="insert-hr-btn" title="Divider">—</button>
+          <button class="tb" data-cmd="undo" title="Undo">↩</button>
+          <button class="tb" data-cmd="redo" title="Redo">↪</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" data-modal="note-modal">Cancel</button>
-        <button class="btn-primary" id="save-note-btn">Save Note</button>
+      <div class="editor-body">
+        <div id="note-editor" class="rich-editor" contenteditable="true" spellcheck="true"
+          data-placeholder="Start writing your note…"></div>
       </div>
+      <div class="form-error editor-error" id="note-modal-error"></div>
+    </div>
+  </div>
+
+  <!-- Note View Modal -->
+  <div class="modal-backdrop" id="note-view-modal">
+    <div class="modal modal-editor modal-view">
+      <div class="modal-header">
+        <h2 id="note-view-title">Note</h2>
+        <div class="editor-header-right">
+          <button class="btn-secondary" id="note-view-edit-btn">Edit</button>
+          <button class="modal-close" data-modal="note-view-modal">✕</button>
+        </div>
+      </div>
+      <div class="note-view-content" id="note-view-content"></div>
     </div>
   </div>
 
@@ -381,22 +557,18 @@
   <div class="modal-backdrop" id="confirm-modal">
     <div class="modal modal-sm">
       <div class="modal-header">
-        <h2>Confirm Delete</h2>
+        <h2>Confirm</h2>
         <button class="modal-close" data-modal="confirm-modal">✕</button>
       </div>
-      <div class="modal-body">
-        <p id="confirm-message">Are you sure?</p>
-      </div>
+      <div class="modal-body"><p id="confirm-message">Are you sure?</p></div>
       <div class="modal-footer">
         <button class="btn-secondary" data-modal="confirm-modal">Cancel</button>
-        <button class="btn-danger" id="confirm-ok-btn">Delete</button>
+        <button class="btn-danger" id="confirm-ok-btn">Confirm</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
-
   <script src="app.js"></script>
 </body>
 </html>
